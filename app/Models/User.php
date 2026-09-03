@@ -2,39 +2,25 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Str;
-use Laravel\Fortify\Contracts\PasskeyUser;
-use Laravel\Fortify\PasskeyAuthenticatable;
-use Laravel\Fortify\TwoFactorAuthenticatable;
 
-/**
- * @property int $id
- * @property string $name
- * @property string $email
- * @property Carbon|null $email_verified_at
- * @property string $password
- * @property string|null $two_factor_secret
- * @property string|null $two_factor_recovery_codes
- * @property Carbon|null $two_factor_confirmed_at
- * @property string|null $remember_token
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- */
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'two_factor_secret', 'two_factor_recovery_codes', 'remember_token'])]
-class User extends Authenticatable implements PasskeyUser
+class User extends Authenticatable
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable, PasskeyAuthenticatable, TwoFactorAuthenticatable;
+    use HasFactory, Notifiable, HasRoles;
+
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+    ];
+
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
     /**
      * Get the attributes that should be cast.
@@ -50,29 +36,26 @@ class User extends Authenticatable implements PasskeyUser
     }
 
     /**
-     * Get the user's initials
+     * Obtiene las iniciales del nombre del usuario.
+     *
+     * @return string
      */
     public function initials(): string
     {
-        $initials = Str::initials($this->name, true);
+        $name = $this->name;
+        if (empty($name)) {
+            return '?';
+        }
 
-        return Str::length($initials) > 1
-            ? Str::substr($initials, 0, 1).Str::substr($initials, -1)
-            : $initials;
+        $parts = explode(' ', trim($name));
+        $initials = '';
+
+        foreach ($parts as $part) {
+            if (!empty($part)) {
+                $initials .= strtoupper(mb_substr($part, 0, 1));
+            }
+        }
+
+        return $initials;
     }
-}
-
-class User extends Authenticatable
-{
-    use HasRoles, HasFactory, Notifiable;
-
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];    
-    Protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 }

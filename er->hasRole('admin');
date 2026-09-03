@@ -1,0 +1,13 @@
+[90m= [39m[34;4mApp\Models\User[39;24m {#8786
+    [34mid[39m: [35m3[39m,
+    [34mname[39m: [32m"[39m[32madmintest[39m[32m"[39m,
+    [34memail[39m: [32m"[39m[32madmin@test.com[39m[32m"[39m,
+    [34memail_verified_at[39m: [36mnull[39m,
+    #[33mpassword[39m: [32m"[39m\$[32m2y[39m\$[32m12[39m\$[32msk6uYjKIsj0XVExC5XObsuJIN1fMeOJMlNptc6yLVu.1YXV/zmrZC[39m[32m"[39m,
+    [34mtwo_factor_secret[39m: [36mnull[39m,
+    [34mtwo_factor_recovery_codes[39m: [36mnull[39m,
+    [34mtwo_factor_confirmed_at[39m: [36mnull[39m,
+    #[33mremember_token[39m: [36mnull[39m,
+    [34mcreated_at[39m: [32m"[39m[32m2026-09-01 19:06:21[39m[32m"[39m,
+    [34mupdated_at[39m: [32m"[39m[32m2026-09-01 19:06:21[39m[32m"[39m,
+  }
