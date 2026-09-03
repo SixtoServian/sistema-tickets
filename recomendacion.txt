@@ -33,6 +33,9 @@ sudo chmod -R 775 storage bootstrap/cache
 php artisan config:cache
 php artisan route:cache
 php artisan view:cache
+php artisan cache:clear
+
+php artisan db:seed
 
 # 10. Reiniciar servicios
 sudo systemctl reload nginx
