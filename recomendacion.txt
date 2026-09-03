@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# 1. Actualizar código
+git pull origin main
+
+# 2. Instalar dependencias PHP
+composer install --optimize-autoloader --no-dev
+
+# 3. Limpiar cachés viejas (¡IMPORTANTE!)
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+php artisan cache:clear
+
+# 4. Migrar base de datos
+php artisan migrate --force
+
+# 5. Generar clave de app (si no existe)
+php artisan key:generate --force
+
+# 6. Enlace simbólico de storage (para archivos subidos)
+php artisan storage:link --force
+
+# 7. Instalar dependencias Node y compilar assets
+npm install
+npm run build
+
+# 8. Permisos correctos
+sudo chown -R www-data:www-data storage bootstrap/cache
+sudo chmod -R 775 storage bootstrap/cache
+
+# 9. Reconstruir cachés optimizadas
+php artisan config:cache
+php artisan route:cache
+php artisan view:cache
+
+# 10. Reiniciar servicios
+sudo systemctl reload nginx
+sudo systemctl restart php8.4-fpm   # o php-fpm según tu versión
+
+echo "✅ ¡Despliegue completado en PCDB!"
