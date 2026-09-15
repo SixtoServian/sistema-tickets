@@ -58,4 +58,8 @@ class User extends Authenticatable
 
         return $initials;
     }
+    public function tickets()
+    {
+        return $this->hashMamy(Tickets::class);
+    }
 }
